@@ -11,8 +11,17 @@
 	* (Hint: You need to handle NullPointerException.)
 	* (Hint: Make use of the email id stored in the session object to check if user is logged in or not.)
     */
-
 %>
+<%
+String coo=(String)session.getAttribute("sEmailId");
+if (null == coo){
+%>
+<jsp:forward page="/index.jsp" />
+<% } %>
+
+
+
+
 <!--
 	TODO: 4.16. Right now we have the structure of the form ready, however it's Post button is
 	not functioning. Add 'method' and 'action' attributes to the form such that when the user
@@ -32,13 +41,13 @@
 		in the top right corner of the web page. 
 	-->
     <%--    Showing text before @ in email as username--%>
-
+<p>Logged In as ${sessionScope.sEmailId}<p>
 </header>
 <div id="form_wrapper">
-    <form id="post_form">
+    <form action="/blog/ViewPostById.jsp" method="post" id="post_form">
         <div id="email_div">
             <label >User Email</label>
-            <span><%=session.getAttribute("emailId")%></span>
+            <span><%=session.getAttribute("sEmailId")%></span>
         </div>
         <div id="title_div">
             <label for="title">Blog Title</label>

@@ -1,9 +1,14 @@
 package com.upgrad.blog.servlets;
 
+import com.upgrad.blog.dto.PostDTO;
+
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
 
 /**
  * TODO 4.18: Modify the class definition to make it a Servlet class.
@@ -53,7 +58,7 @@ import java.io.IOException;
  * thread2: Writing logs into the file
  */
 
-public class PostServlet {
+public class PostServlet extends HttpServlet {
     //    Here we will have servlet methods
 
     /**
@@ -63,15 +68,51 @@ public class PostServlet {
      * @throws ServletException
      * @throws IOException
      */
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String title = req.getParameter("title");//get value
+        String tag = req.getParameter("tag");//get value
+        String description = req.getParameter("description");//get value
 
 //        Uncomment the following code snippet to check whether any of the field is empty.
-//        if (email.equals(null) || title.equals(null) || tag.equals(null) || description.equals(null)) {
-//            req.setAttribute("isError", true);
-//            req.setAttribute("errorMessage", "All form fields value are required!");
-//            rd = req.getRequestDispatcher("/blog/CreatePost.jsp"); //rd is RequestDispatcher
-//            rd.forward(req, resp); //rd is RequestDispatcher
-//        }
+        if (title.equals(null) || tag.equals(null) || description.equals(null)) {
+            req.setAttribute("isError", true);
+            req.setAttribute("errorMessage", "All form fields value are required!");
+            /*rd = req.getRequestDispatcher("/blog/CreatePost.jsp"); //rd is RequestDispatcher
+            rd.forward(req, resp); //rd is RequestDispatcher*/
+            req.getRequestDispatcher("/blog/CreatePost.jsp").forward(req, resp);
+        }
+
+        //creating another obj
+        PostDTO PObj  = new PostDTO();
+        PObj.setPostId((int)1);
+        PObj.setTimestamp(LocalDateTime.now());
+        //printing this data on console
+        System.out.println(PObj.getPostId());
+        System.out.println(PObj.getTimestamp());
+
+        //printed in /blog/post page
+        resp.setContentType("text/html");
+        PrintWriter out = resp.getWriter();
+        /*out.println("<p> Title: "+ PObj.getTitle()+ "</p>");
+        out.println("<p> Department: "+ PObj.getTag()+ "</p>");
+        out.println("<p> Company: "+ PObj.getDescription()+ "</p>");*/
+        out.println("<p> Title: "+ title+ "</p>");
+        out.println("<p> Tag: "+ tag+ "</p>");
+        out.println("<p> Description: "+ description+ "</p>");
+        out.flush();
+
+
+        /*resp.sendRedirect(req.getContextPath() + "/ViewPostById.jsp");
+        req.setAttribute("PObj", PObj);*/
+
+        req.setAttribute("PObj", PObj);
+        req.getRequestDispatcher("/blog/ViewPostById.jsp").forward(req, resp);
+
+
+
+
+
 
     }
 }

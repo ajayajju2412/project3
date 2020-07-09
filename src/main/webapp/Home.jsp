@@ -12,8 +12,15 @@
 	* (Hint: You need to handle NullPointerException.)
 	* (Hint: Make use of the email id stored in the session object to check if user is logged in or not.)
     */
-
 %>
+
+<%
+String foo=(String)session.getAttribute("sEmailId");
+if (null == foo){
+%>
+<jsp:forward page="/index.jsp" />
+<% } %>
+
 <html>
 <head>
     <title>Home Page</title>
@@ -28,6 +35,7 @@
 		in the top right corner of the web page. 
 	-->
 
+<p>Logged In as ${sessionScope.sEmailId}<p>
 </header>
 <a href="blog/CreatePost.jsp"> Create Post</a>
 <a href="blog/Search.jsp"> Search Post</a>

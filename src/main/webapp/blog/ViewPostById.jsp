@@ -14,8 +14,15 @@
 	* (Hint: You need to handle NullPointerException.)
 	* (Hint: Make use of the email id stored in the session object to check if user is logged in or not.)
     */
-
 %>
+<%
+String coo=(String)session.getAttribute("sEmailId");
+if (null == coo){
+%>
+<jsp:forward page="/index.jsp" />
+<% } %>
+
+
 <html>
 <head>
     <title>View Post After Creation</title>
@@ -29,7 +36,7 @@
 		in the top right corner of the web page. 
 	-->
     <%--    Showing text before @ in email as username--%>
-
+<p>Logged In as ${sessionScope.sEmailId}<p>
 </header>
 <!-- 
 	TODO: 4.26. Retrieve the PostDTO object from the request object and print the data
@@ -37,20 +44,22 @@
  -->
 
 <%
-    try {
-
+ //   try{PostDTO retObj  = request.getAttribute("PObj");
+//}
 %>
     <div class="post-list-wrapper">
         <div class="post-list">
             //Create PostDTO object here.
+
         </div>
     </div>
     <div class="post-list-wrapper">
-        <a href="../Home.jsp">Home Page</a>
+        <a href="/..Home.jsp">Home Page</a>
     </div>
 <%
-    } catch (NullPointerException e) {
-    }
+ //   } catch (NullPointerException e) {
+ //   printStackTrace();
+  //  }
 
 %>
 </body>

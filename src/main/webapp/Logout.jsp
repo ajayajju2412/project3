@@ -5,4 +5,12 @@
 	Home.jsp is clicked, the session is invalidated and user is redirected to the
 	Sign In/ Sign Up page.
  -->
+<%
+String ioo=(String)session.getAttribute("sEmailId");
+if (null != ioo){
+session.invalidate();
+}
+%>
+
+<jsp:forward page="/index.jsp" />
 

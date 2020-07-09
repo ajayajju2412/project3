@@ -10,8 +10,15 @@
 	* TODO: 4.11. If a user is logged in then, redirect the user to the Home.jsp page.
 	* (Hint: Make use of the email id stored in the session object)
 	*/
-
 %>
+<%
+String foo=(String)session.getAttribute("sEmailId");
+if (null != foo){
+%>
+<jsp:forward page="/Home.jsp" />
+<% } %>
+
+
 <!--
 	TODO: 4.3. Right now we have the structure of the form ready, however it's Sign In and
 	Sign Up buttons are not functioning. Add 'method' and 'action' attributes to the form such
@@ -25,18 +32,20 @@
 </head>
 <body>
 <div class="form_wrapper">
-    <form id="login_form">
+    <form action="/blog/user" method="post" id="login_form">
         <div id="email_div">
             <label for="emailId">User Email</label>
-            <input type="text" placeholder="example@email.com" required="required" name="emailId" id="emailId"/>
+            <input type="text" placeholder="example@email.com" name="emailId" id="emailId"/>
         </div>
         <div id="password_div">
             <label for="password">Password</label>
-            <input type="password" required="required" placeholder="********" name="password" id="password"/>
+            <input type="password" placeholder="********" name="password" id="password"/>
+            <p><span name="error" style="color:red">${messages.password}</span><p>
         </div>
         <input type="submit" value="Sign In" name="actionType"/>
         <input type="submit" value="Sign Up" name="actionType"/>
         <div class="error">
+
             <%--    Check if there is any error set in request.--%>
             <!--
             	TODO: 4.12. Write the Java code to display the error message

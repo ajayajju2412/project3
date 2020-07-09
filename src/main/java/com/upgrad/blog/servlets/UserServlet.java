@@ -2,9 +2,14 @@
 package com.upgrad.blog.servlets;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * TODO: 4.4. Modify the class definition to make it a Servlet class.
@@ -49,7 +54,7 @@ import java.io.IOException;
  * redirect the user to the Home.jsp page.
  */
 
-public class UserServlet {
+public class UserServlet extends HttpServlet {
 
     /**
      *
@@ -58,7 +63,60 @@ public class UserServlet {
      * @throws ServletException
      * @throws IOException
      */
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Map<String, String> messages = new HashMap<String, String>();
+        Map<String, String> after = new HashMap<String, String>();
+
+        req.setAttribute("messages", messages);
+        req.setAttribute("after", after);
+
+        String emailId = req.getParameter("emailId");//get value
+        after.put("emailId",emailId);//if no error,previous entered data will be reflected
+        String password = req.getParameter("password");//get value
+        after.put("password",password);
+
+        //error display message working
+        if(password == null || password.trim().isEmpty()){
+            messages.put("password","Password is a required field");
+            //req.getRequestDispatcher("index.jsp").forward(req, resp);
+        }
+        //working whole block
+        //Start
+        if(messages.isEmpty()){
+            String action = req.getParameter("actionType");
+            //actions for two submit buttons
+            if ("Sign In".equals(action)) {
+                System.out.println("User Signed In");
+                System.out.println("User Details:-");
+                System.out.println("EmailId: "+emailId);
+                HttpSession session = req.getSession();
+                session.setAttribute("sEmailId", emailId);
+                //String sEmailId2 = (String) session.getAttribute("sEmailId");
+                /*if (null != sEmailId2) {
+                    resp.sendRedirect(req.getContextPath() + "/Home.jsp");
+                }*/
+                resp.sendRedirect(req.getContextPath() + "../Home.jsp");
+            }
+            else if("Sign Up".equals(action)) {
+                System.out.println("User Signed Up");
+                System.out.println("User Details:-");
+                System.out.println("EmailId: "+emailId);
+                HttpSession session = req.getSession();
+                session.setAttribute("sEmailId", emailId);
+                //String sEmailId2 = (String) session.getAttribute("sEmailId");
+                /*if (null != sEmailId2) {
+                    resp.sendRedirect(req.getContextPath() + "/Home.jsp");
+                }*/
+                resp.sendRedirect(req.getContextPath() + "../Home.jsp");
+            }
+        }
+        //End
+        else {
+            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        }
+
+
 
     }
 }
