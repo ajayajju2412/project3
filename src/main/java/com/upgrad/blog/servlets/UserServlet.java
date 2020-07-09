@@ -1,6 +1,17 @@
 //*******************DONE***********************
-package com.upgrad.blog.servlets;
 
+package com.upgrad.blog.servlets;
+import com.upgrad.blog.dao.DAOFactory;
+import com.upgrad.blog.dto.UserDTO;
+import com.upgrad.blog.exceptions.EmailNotValidException;
+import com.upgrad.blog.util.EmailValidator;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +21,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 
 /**
  * TODO: 4.4. Modify the class definition to make it a Servlet class.
@@ -53,7 +67,7 @@ import java.util.Map;
  * 2. If the user's email is unregistered, then store the user's details in the database and
  * redirect the user to the Home.jsp page.
  */
-
+@WebServlet("/blog/user")
 public class UserServlet extends HttpServlet {
 
     /**
@@ -76,11 +90,24 @@ public class UserServlet extends HttpServlet {
         String password = req.getParameter("password");//get value
         after.put("password",password);
 
-        //error display message working
+        //error display for email using email validator
+        EmailValidator e = new EmailValidator();
+        try {
+            if(!e.isValidEmail(emailId)){
+                messages.put("password","Password is a required field");
+                //req.getRequestDispatcher("index.jsp").forward(req, resp);
+            }
+        } catch (EmailNotValidException emailNotValidException) {
+            messages.put("emailId","Email is Invalid");
+        }
+
+
+        //error display for password
         if(password == null || password.trim().isEmpty()){
             messages.put("password","Password is a required field");
             //req.getRequestDispatcher("index.jsp").forward(req, resp);
         }
+
         //working whole block
         //Start
         if(messages.isEmpty()){

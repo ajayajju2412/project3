@@ -36,6 +36,7 @@ if (null != foo){
         <div id="email_div">
             <label for="emailId">User Email</label>
             <input type="text" placeholder="example@email.com" name="emailId" id="emailId"/>
+            <p><span name="error" style="color:red">${messages.emailId}</span><p>
         </div>
         <div id="password_div">
             <label for="password">Password</label>

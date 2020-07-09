@@ -8,14 +8,7 @@
       TODO: 4.2. Map the “PostServlet” Servlet to “/blog/post”
   -->
   <!-- *****************START*****************Solution 4.1 + 4.2***************** -->
-  <servlet>
-    <servlet-name>UserServlet</servlet-name>
-    <servlet-class>com.upgrad.blog.servlets.UserServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/blog/user</url-pattern>
-  </servlet-mapping>
+
   <servlet>
     <servlet-name>PostServlet</servlet-name>
     <servlet-class>com.upgrad.blog.servlets.PostServlet</servlet-class>
